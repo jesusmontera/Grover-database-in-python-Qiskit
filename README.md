@@ -8,6 +8,6 @@ It can show the entaglement between qubits in each step of the search process (w
 
 Also shows the qubits bloch sphere so you can understand how the it works for multiple searched values. I mean if you search 2 values witch that are entagled with indexs (results) 1 (01) and 3 (11) you will se that the first bloch vector points to 1 in near 65% because both result bits are one each result , and the second vector is 50% cero and 50% one, because  it must satisfy ambiguos scond bit results 0 and 1.
 
-Also I have code in MFC Vc6++ with my own quantum engine that does the same (and faster), so no need to install Qiskit
+Also I have code in MFC Vc6++ for windows with my own quantum engine that does the same (and faster), so no need to install Qiskit
 
 ![Alt text](ima.png?raw=true "Grover search qiskit python 3.6 pyqt5 gui")
