@@ -1,4 +1,4 @@
-# Grover-database-in-python-Qiskit ( lubuntu18.04 idle phyton 3.6)
+# Grover-database-in-python 3.6-Qiskit ( lubuntu18.04)
 Source code for searching a QRAM database value->index with Grover in Qiskit with entanglement measure
 IMPORTANT number of qubits must we ODD because there is an auxilary qubit.
 
