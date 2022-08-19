@@ -1,6 +1,8 @@
 # Grover-database-in-python 3.6-Qiskit ( lubuntu18.04)
+
 Source code for searching a QRAM database value->index with Grover in Qiskit with entanglement measure
-IMPORTANT number of qubits must we ODD because there is an auxilary qubit.
+
+WARNING  number of qubits must we ODD because there is an auxilary qubit.
 
 There are 2 files, qtGroverclass.py does do grover qiskit job and qtgrover.py shows the result in a graphical window.The grahical window searchs with QThread.
 
