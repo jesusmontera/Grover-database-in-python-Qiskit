@@ -262,7 +262,7 @@ class Ui_MainWindow(object):
 
         self.ckPUREZA = QtWidgets.QCheckBox(self.centralwidget)
         self.ckPUREZA.setObjectName("ckPUREZA")
-        self.ckPUREZA.setText("Show Purity\b(Entaglment)")
+        self.ckPUREZA.setText("Show entaglement")
         self.ckPUREZA.move(350,170)
         f = self.ckPUREZA.font()
         f.setPointSize(16) 

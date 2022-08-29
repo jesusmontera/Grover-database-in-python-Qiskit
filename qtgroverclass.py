@@ -1,10 +1,11 @@
 from qiskit import *
 import qiskit.quantum_info as qi
 from qiskit.quantum_info import DensityMatrix,partial_trace
-
 import math
 import operator
 import numpy as np
+# new class added for calculate entaglement by dictonary and purity
+from Entagleclass import EntagleClass 
 
 def cadenabinaria(x, n=0):    
     return format(x, 'b').zfill(n)
@@ -23,9 +24,9 @@ class Grover:
         self.SEARCHENDED=3
         #self.statevector=qi.Statevector.from_instruction(self.qc)
         self.statevector=None
-        self.qc = QuantumCircuit(9,9)
-        self.funinfoend=None
+        self.qc = QuantumCircuit(9,9)        
         self.txout=""
+        self.objentagle=None
         
     def Reset(self,numqbits, numexes):
         self.numqbits = numqbits        
@@ -36,6 +37,7 @@ class Grover:
         self.stateSearch = 0
         self.txout=""
         self.numexecutions=numexes
+        self.objentagle= EntagleClass(numqbits)
         
     def GetResultList(self):
         return self.m_resultado    
@@ -52,20 +54,12 @@ class Grover:
         partial_statevector = np.diagonal(partial_density_matrix)
         return partial_statevector
         
-    def PrintPureza(self,sdescription):        
-        rho = qi.DensityMatrix.from_instruction(self.qc)
-        self.txout += sdescription + "\n"
-        for i in range(self.numqbits):
-            if self.stateSearch == 2: break
-            purezaqbit = partial_trace(rho,[i]).purity()
-            purezaqbit = np.round(np.abs(purezaqbit),3)
-            self.txout +="\tpureza qbit " + str( i) + " = " + str(purezaqbit) + "\n"
-            
-##            if self.funout == None:
-##                print("\tpureza qbit " , i, " = " ,purezaqbit)
-##            else:
-##                self.funout("\tpureza qbit " + str( i) + " = " + str(purezaqbit))
-
+    def PrintEntagle(self,sdescription):
+        self.txout +=sdescription + "\n"
+        sv = qi.Statevector.from_instruction(self.qc)
+        self.objentagle.calcSVentagle(sv)
+        self.txout +=self.objentagle.GetEntagleString(True)        
+                            
     def GetGroverIterarions(self,nStates,nSolutions):
         n= (math.pi / 4)
         d = math.sqrt(float(nStates)/nSolutions)
@@ -150,9 +144,9 @@ class Grover:
         self.qc.h(range(nbitsindexs))
         self.qc.h(self.iqaux)         
         nregsdb= len(indexs)
-        if bShowPurity: self.PrintPureza("pureza al inicio")
+        if bShowPurity: self.PrintEntagle("pureza al inicio")
         self.SetQRamDataBase(nregsdb, nbitsindexs, nbitsval, indexs, values)
-        if bShowPurity: self.PrintPureza("pureza tras SetQRamDataBase")
+        if bShowPurity: self.PrintEntagle("pureza tras SetQRamDataBase")
         #repetir N veces segun grover loops
         nsolutions=len(searchedlist)
         nstates=int(2**nbitsindexs)
@@ -163,15 +157,15 @@ class Grover:
                 
             self.Oracle(searchedlist,nbitsindexs,nbitsval)    
             if self.stateSearch == 2: break
-            if bShowPurity: self.PrintPureza("pureza tras oraculo ")    
+            if bShowPurity: self.PrintEntagle("pureza tras oraculo ")    
             if self.stateSearch == 2: break
             self.SetQRamDataBase(nregsdb, nbitsindexs, nbitsval, indexs, values)
             if self.stateSearch == 2: break
-            if bShowPurity: self.PrintPureza("pureza tras SetQRamDataBase")
+            if bShowPurity: self.PrintEntagle("pureza tras SetQRamDataBase")
             if self.stateSearch == 2: break
             self.Difusor(nbitsindexs)
             if self.stateSearch == 2: break
-            if bShowPurity: self.PrintPureza("pureza tras difusor")
+            if bShowPurity: self.PrintEntagle("pureza tras difusor")
             if bShowPurity: self.txout +="fin grover loop " + str(i+1)+ " de " +str(  nloopsgrover)
         #save state vector for plot bloch
         self.statevector = qi.Statevector.from_instruction(self.qc)
